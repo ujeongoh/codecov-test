@@ -27,10 +27,16 @@ jobs:
       - name: Test with coverage
         run: >
           dotnet test tests/MyApp.Tests/MyApp.Tests.csproj
-          --no-build
           --collect:"XPlat Code Coverage"
+          --logger:junit
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: tests/MyApp.Tests/TestResults/**/*.cobertura.xml
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          files: tests/MyApp.Tests/TestResults/TestResults.xml
