@@ -21,7 +21,7 @@ var summaries = new[]
 
 app.MapGet("/weatherforecast", () =>
 {
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
+    var forecast = Enumerable.Range(1, 5).Select(index =>
         new WeatherForecast
         (
             DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
@@ -35,7 +35,17 @@ app.MapGet("/weatherforecast", () =>
 
 app.Run();
 
+// 테스트 가능한 일반 함수 예시
+public static class WeatherUtil
+{
+    // 섭씨를 화씨로 변환
+    public static int CelsiusToFahrenheit(int celsius)
+    {
+        return 32 + (int)(celsius / 0.5556);
+    }
+}
+
 record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
 {
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
+    public int TemperatureF => WeatherUtil.CelsiusToFahrenheit(TemperatureC);
 }
