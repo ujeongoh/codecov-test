@@ -25,9 +25,12 @@ jobs:
         run: dotnet build --no-restore
 
       - name: Test with coverage
-        run: dotnet test CodeCoverageTest.Tests/CodeCoverageTest.Tests.csproj --collect:"XPlat Code Coverage"
+        run: >
+          dotnet test tests/MyApp.Tests/MyApp.Tests.csproj
+          --no-build
+          --collect:"XPlat Code Coverage"
 
       - name: Upload coverage reports to Codecov
         uses: codecov/codecov-action@v5
         with:
-          files: CodeCoverageTest.Tests/TestResults/**/*.cobertura.xml
+          files: tests/MyApp.Tests/TestResults/**/*.cobertura.xml
